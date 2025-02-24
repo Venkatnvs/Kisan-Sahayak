@@ -8,5 +8,8 @@ export const fetchFieldsBySearchApi = search =>
 export const createFieldApi = formData =>
   AXIOS_INSTANCE.post('/core/fields/', formData);
 
+export const fetchFieldApi = id =>
+  AXIOS_INSTANCE.get(`/core/fields/${id}/`);
+
 export const fetchFieldDataApi = () => 
   AXIOS_INSTANCE.get('/core/field-data/');

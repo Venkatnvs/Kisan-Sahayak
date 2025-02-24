@@ -1,5 +1,6 @@
 import ControlPage from "./pages/Controller/ControlPage";
 import DataPage from "./pages/DataView/DataPage";
+import FieldDetails from "./pages/Fields/FieldDetails";
 import NewFieldPage from "./pages/Fields/NewFieldPage";
 import MainPage from "./pages/MainHome/MainPage";
 
@@ -23,6 +24,11 @@ const routes = [
     name: 'New Field',
     path: '/fields/add',
     element: NewFieldPage,
+  },
+  {
+    name: 'Field Details',
+    path: '/fields/:id',
+    element: FieldDetails,
   }
 ];
 

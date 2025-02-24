@@ -81,7 +81,8 @@ const DataPage = () => {
                 className="w-full h-full object-cover rounded-t-lg"
               />
               <Badge 
-                className={`absolute top-2 right-2 ${item.is_disease ? 'bg-red-500' : 'bg-green-500'}`}
+                className="absolute top-2 right-2"
+                variant={item.is_disease ? 'destructive' : 'success'}
               >
                 {item.is_disease ? 'Disease Detected' : 'Healthy'}
               </Badge>
@@ -111,7 +112,7 @@ const DataPage = () => {
       
       <Dialog open={openModal} onOpenChange={setOpenModal}>
         {selectedRecord && (
-          <DialogContent className="max-w-4xl">
+          <DialogContent className="max-w-4xl overflow-y-scroll max-h-[96vh]">
             <DialogHeader>
               <DialogTitle>{selectedRecord.crop_name} Analysis</DialogTitle>
               <DialogDescription>
@@ -143,7 +144,7 @@ const DataPage = () => {
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Status:</span>
                     <Badge 
-                      className={selectedRecord.is_disease ? 'bg-red-500' : 'bg-green-500'}
+                      variant={selectedRecord.is_disease ? 'destructive' : 'success'}
                     >
                       {selectedRecord.is_disease ? 'Disease Detected' : 'Healthy'}
                     </Badge>
@@ -172,6 +173,9 @@ const DataPage = () => {
                       Lat: {selectedRecord.location.lat}, Lng: {selectedRecord.location.lng}
                     </span>
                   </div>
+                  <Button onClick={() => window.open(`https://google.com/maps?q=${selectedRecord.location.lat},${selectedRecord.location.lng}`, '_blank')} className="mt-2">
+                    Open in Google Maps
+                  </Button>
                 </div>
                 
                 <div>
@@ -192,9 +196,9 @@ const DataPage = () => {
             
             <DialogFooter>
               <Button variant="outline" onClick={() => setOpenModal(false)}>Close</Button>
-              {selectedRecord.is_disease && (
+              {/* {selectedRecord.is_disease && (
                 <Button>Take Action</Button>
-              )}
+              )} */}
             </DialogFooter>
           </DialogContent>
         )}

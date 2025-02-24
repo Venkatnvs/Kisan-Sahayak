@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import Field, FieldData
+import base64
+import uuid
+from django.core.files.base import ContentFile
 
 class FieldSerializer(serializers.ModelSerializer):
     main_coordinate = serializers.SerializerMethodField()
@@ -22,7 +25,25 @@ class FieldSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Field with this name already exists")
         return data
     
+class Base64ImageField(serializers.ImageField):
+    def to_internal_value(self, data):
+        # If the incoming data is a base64 string, decode it
+        if isinstance(data, str):
+            # Remove header if it exists
+            if "data:" in data and ";base64," in data:
+                header, data = data.split(";base64,")
+            try:
+                decoded_file = base64.b64decode(data)
+            except Exception:
+                raise serializers.ValidationError("Invalid image data")
+            file_name = str(uuid.uuid4())[:12]  # Generate a random file name
+            file_extension = "jpg"  # Assume jpg; you can add logic to detect type if needed
+            complete_file_name = f"{file_name}.{file_extension}"
+            data = ContentFile(decoded_file, name=complete_file_name)
+        return super().to_internal_value(data)
+    
 class FieldDataSerializer(serializers.ModelSerializer):
+    img = Base64ImageField()
     class Meta:
         model = FieldData
         fields = "__all__"
