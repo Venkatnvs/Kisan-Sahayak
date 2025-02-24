@@ -1,6 +1,6 @@
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
-const SITE_NAME = "AgriBot";
+const SITE_NAME = "Kisan Sahayak";
 
 const API_URLS = {
     AUTH_TOKEN_REFRESH: '/auth/token/refresh/',

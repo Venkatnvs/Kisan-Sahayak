@@ -25,5 +25,4 @@ class FieldSerializer(serializers.ModelSerializer):
 class FieldDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = FieldData
-        fields = ['id', 'field', 'temperature', 'humidity', 'soil_moisture', 'img', 'description', 'location', 'created_at']
-        read_only_fields = ['id', 'created_at']
+        fields = "__all__"

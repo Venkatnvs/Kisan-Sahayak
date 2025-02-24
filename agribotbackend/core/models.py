@@ -52,12 +52,15 @@ class Field(models.Model):
         return self.getGoogleMapsTileUrl(self.main_coordinate[0], self.main_coordinate[1], 17)
     
 class FieldData(models.Model):
-    field = models.ForeignKey(Field, on_delete=models.CASCADE)
+    main_field = models.ForeignKey(Field, on_delete=models.CASCADE)
     temperature = models.FloatField(null=True, blank=True)
     humidity = models.FloatField(null=True, blank=True)
     soil_moisture = models.FloatField(null=True, blank=True)
     img = models.ImageField(upload_to='field_data', null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    is_disease = models.BooleanField(default=False)
+    crop_name = models.CharField(max_length=100, blank=True, null=True)
+    solution = models.TextField(null=True, blank=True)
     location = models.JSONField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -65,4 +68,4 @@ class FieldData(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.field.name} - {self.created_at}"
+        return f"{self.main_field.name} - {self.created_at} - {self.id}"
