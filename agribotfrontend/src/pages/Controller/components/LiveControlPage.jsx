@@ -43,9 +43,7 @@ const LiveControlPage = () => {
     try {
       if (command === 'send') {
         setStatus('Sending command: send');
-        return;
       }
-      
       if (!apiCommands.includes(command)) {
         const response = await fetch(`http://192.168.177.57/cmd?command=${command}`);
         if (!response) {

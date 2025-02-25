@@ -1,3 +1,4 @@
+import MainAutonomous from "./pages/Autonomous/MainAutonomous";
 import ControlPage from "./pages/Controller/ControlPage";
 import DataPage from "./pages/DataView/DataPage";
 import FieldDetails from "./pages/Fields/FieldDetails";
@@ -29,6 +30,11 @@ const routes = [
     name: 'Field Details',
     path: '/fields/:id',
     element: FieldDetails,
+  },
+  {
+    name: 'Autonomous',
+    path: '/autonomous',
+    element: MainAutonomous,
   }
 ];
 

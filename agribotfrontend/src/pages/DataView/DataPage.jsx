@@ -82,9 +82,9 @@ const DataPage = () => {
               />
               <Badge 
                 className="absolute top-2 right-2"
-                variant={item.is_disease ? 'destructive' : 'success'}
+                variant={item?.is_not_crop ? 'secondary' : item?.is_disease ? 'destructive' : 'success'}
               >
-                {item.is_disease ? 'Disease Detected' : 'Healthy'}
+                {item?.is_not_crop ? 'Not a Crop' : item?.is_disease ? 'Disease Detected' : 'Healthy'}
               </Badge>
             </div>
             <CardHeader className="pb-2">
@@ -144,9 +144,9 @@ const DataPage = () => {
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Status:</span>
                     <Badge 
-                      variant={selectedRecord.is_disease ? 'destructive' : 'success'}
+                      variant={selectedRecord.is_not_crop ? 'secondary' : selectedRecord.is_disease ? 'destructive' : 'success'}
                     >
-                      {selectedRecord.is_disease ? 'Disease Detected' : 'Healthy'}
+                      {selectedRecord.is_not_crop ? 'Not a Crop' : selectedRecord.is_disease ? 'Disease Detected' : 'Healthy'}
                     </Badge>
                   </div>
                 </div>

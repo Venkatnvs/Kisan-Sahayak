@@ -7,6 +7,7 @@ import {
   ChevronRight,
   CircuitBoardIcon,
   Command,
+  CommandIcon,
   CreditCard,
   Database,
   File,
@@ -81,4 +82,5 @@ export const Icons = {
   analytics: ChartColumn,
   database: Database,
   gamepad: Gamepad,
+  robot: CommandIcon
 };

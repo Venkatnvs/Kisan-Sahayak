@@ -141,6 +141,7 @@ class FieldDataListCreate(generics.ListCreateAPIView):
                 '  "description": "Detailed analysis of the crop condition, including health status",'
                 '  "is_disease": true/false,'
                 '  "solution": "Recommended solution if a disease is detected, otherwise an empty string"'
+                '  "is_not_crop": true/false'
                 "}"
             )
 
@@ -156,7 +157,8 @@ class FieldDataListCreate(generics.ListCreateAPIView):
                 "crop_name": "Unknown",
                 "description": "",
                 "is_disease": False,
-                "solution": ""
+                "solution": "",
+                "is_not_crop": False
             }
 
     def perform_create(self, serializer):
@@ -170,10 +172,12 @@ class FieldDataListCreate(generics.ListCreateAPIView):
             disease_description = gemini_response.get("description", "")
             is_disease = gemini_response.get("is_disease", False)
             solution = gemini_response.get("solution", "No solution required")
+            is_not_crop = gemini_response.get("is_not_crop", False)
 
             # Update serializer data accordingly
             serializer.validated_data["description"] = disease_description
             serializer.validated_data["is_disease"] = is_disease
+            serializer.validated_data["is_not_crop"] = is_not_crop
             serializer.validated_data["crop_name"] = crop_name
             serializer.validated_data["solution"] = solution
 

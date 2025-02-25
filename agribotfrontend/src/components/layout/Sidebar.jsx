@@ -22,7 +22,7 @@ const Sidebar = ({ className }) => {
       )}
     >
       <div className='hidden p-5 pt-10 lg:block'>
-        <Link to={'/dashboard'}>
+        <Link to={'/'}>
         <div
           className='flex flex-row items-center space-x-0 cursor-pointer'
         >

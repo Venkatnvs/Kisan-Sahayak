@@ -16,5 +16,11 @@ export const navItems = [
     href: '/loc-data',
     icon: 'database',
     label: 'loc-data',
+  },
+  {
+    title: 'Autonomous',
+    href: '/autonomous',
+    icon: 'robot',
+    label: 'Autonomous',
   }
 ];

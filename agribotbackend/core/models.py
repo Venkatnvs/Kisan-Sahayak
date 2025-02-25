@@ -59,6 +59,7 @@ class FieldData(models.Model):
     img = models.ImageField(upload_to='field_data', null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     is_disease = models.BooleanField(default=False)
+    is_not_crop = models.BooleanField(default=False)
     crop_name = models.CharField(max_length=100, blank=True, null=True)
     solution = models.TextField(null=True, blank=True)
     location = models.JSONField(null=True, blank=True)

@@ -11,7 +11,7 @@ const Header = () => {
       <nav className='flex items-center justify-between px-4 py-2 md:justify-end'>
         <div className={cn('lg:!hidden flex-row flex gap-1')}>
           <MobileSidebar />
-          <Link to={'/dashboard'}>
+          <Link to={'/'}>
             <div className='flex flex-row items-center space-x-0 space-y-0 cursor-pointer'>
               <img src={MainLogo} alt='Logo' className={cn('mr-1 w-8 h-6')} />
               {
