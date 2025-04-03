@@ -9,3 +9,5 @@ whitenoise
 psycopg2-binary
 gunicorn
 django-unused-media
+requests
+google-genai
