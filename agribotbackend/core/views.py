@@ -14,8 +14,9 @@ import requests
 import base64
 from django.core.files.base import ContentFile
 from django.core.cache import cache
+from django.conf import settings
 
-gai.configure(api_key='AIzaSyBhVjgM6I3Zz-90uvu7y_dPLZ83yxLCVzA')
+gai.configure(api_key=settings.GOOGLE_API_KEY)
 model = gai.GenerativeModel("gemini-1.5-flash-latest")
 chat = model.start_chat(history=[])
 
@@ -47,7 +48,7 @@ class FieldRetrieve(generics.RetrieveAPIView):
             'lat': lat,
             'lon': lon,
             'units': 'metric',
-            'appid': "d5cbfc27141a4f02b2b51432658158c3"
+            'appid': settings.AGROMONITORING_API_KEY
         }
         response = requests.get(url, params=params)
         if response.status_code == 200:
