@@ -2,6 +2,9 @@ from pathlib import Path
 import os
 from decouple import config
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'cloudinary',
+    'cloudinary_storage',
 
     'corsheaders',
     'rest_framework',
@@ -167,6 +173,15 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+    secure=True
+)
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 AGROMONITORING_API_KEY = config('AGROMONITORING_API_KEY')

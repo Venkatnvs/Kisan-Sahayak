@@ -3,6 +3,7 @@ from .models import Field, FieldData
 import base64
 import uuid
 from django.core.files.base import ContentFile
+from cloudinary.utils import cloudinary_url
 
 class FieldSerializer(serializers.ModelSerializer):
     main_coordinate = serializers.SerializerMethodField()
@@ -27,6 +28,10 @@ class FieldSerializer(serializers.ModelSerializer):
     
 class Base64ImageField(serializers.ImageField):
     def to_internal_value(self, data):
+        # If this is already a file or None, just pass it through
+        if data is None or hasattr(data, 'read'):
+            return data
+            
         # If the incoming data is a base64 string, decode it
         if isinstance(data, str):
             # Remove header if it exists
@@ -40,10 +45,29 @@ class Base64ImageField(serializers.ImageField):
             file_extension = "jpg"  # Assume jpg; you can add logic to detect type if needed
             complete_file_name = f"{file_name}.{file_extension}"
             data = ContentFile(decoded_file, name=complete_file_name)
-        return super().to_internal_value(data)
+            
+        return data
     
 class FieldDataSerializer(serializers.ModelSerializer):
-    img = Base64ImageField()
+    img = Base64ImageField(required=False, allow_null=True)
+    img_url = serializers.SerializerMethodField()
+
     class Meta:
         model = FieldData
         fields = "__all__"
+        read_only_fields = ['img_url']
+
+    def get_img_url(self, obj):
+        if not obj.img:
+            return None
+        
+        # If img is a string (Cloudinary public_id)
+        if isinstance(obj.img, str):
+            url, options = cloudinary_url(obj.img)
+            return url
+        
+        # If img is a CloudinaryField
+        if hasattr(obj.img, 'url'):
+            return obj.img.url
+            
+        return None

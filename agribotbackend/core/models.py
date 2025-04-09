@@ -1,5 +1,6 @@
 from django.db import models
 import math
+from cloudinary.models import CloudinaryField
 
 class Field(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -56,7 +57,7 @@ class FieldData(models.Model):
     temperature = models.FloatField(null=True, blank=True)
     humidity = models.FloatField(null=True, blank=True)
     soil_moisture = models.FloatField(null=True, blank=True)
-    img = models.ImageField(upload_to='field_data', null=True, blank=True)
+    img = CloudinaryField('image', null=True, blank=True, folder='agri_backend/')
     description = models.TextField(null=True, blank=True)
     is_disease = models.BooleanField(default=False)
     is_not_crop = models.BooleanField(default=False)

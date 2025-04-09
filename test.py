@@ -9,9 +9,9 @@ def get_img_base64(img_path):
         return base64.b64encode(img_file.read()).decode("utf-8")
 
 # Open the image file in binary mode
-img_path = "D:/Reactjs/AgriBot/6bc046e7-107.jpg"
+img_path = "D:/Reactjs/AgriBot/images.jpeg"
 json_data = {
-    "main_field": 2,
+    "main_field": 3,
     "temperature": 20,
     "humidity": 20,
     "soil_moisture": 10,

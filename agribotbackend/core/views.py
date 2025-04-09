@@ -15,6 +15,8 @@ import base64
 from django.core.files.base import ContentFile
 from django.core.cache import cache
 from django.conf import settings
+from cloudinary import uploader
+import uuid
 
 gai.configure(api_key=settings.GOOGLE_API_KEY)
 model = gai.GenerativeModel("gemini-1.5-flash-latest")
@@ -127,9 +129,24 @@ class FieldDataListCreate(generics.ListCreateAPIView):
 
     def gemini_img_bot(self, image):
         try:
-            # Reset cursor position and read image data
-            image.seek(0)
-            img_bytes = BytesIO(image.read())
+            # Convert to PIL Image for Gemini processing
+            if hasattr(image, 'file'):
+                # Django file-like object
+                img_bytes = BytesIO(image.file.read())
+                # Reset file pointer
+                if hasattr(image, 'seek'):
+                    image.seek(0)
+                elif hasattr(image.file, 'seek'):
+                    image.file.seek(0)
+            elif hasattr(image, 'read'):
+                # File-like object
+                img_bytes = BytesIO(image.read())
+                # Reset file pointer
+                image.seek(0)
+            else:
+                # Already in bytes or something else
+                img_bytes = BytesIO(image)
+                
             img = Image.open(img_bytes)
 
             prompt = (
@@ -163,23 +180,63 @@ class FieldDataListCreate(generics.ListCreateAPIView):
             }
 
     def perform_create(self, serializer):
-        # At this point, the 'img' field is already a file-like object thanks to Base64ImageField
+        # Check if an image file is provided
+        temp_img = None
         if "img" in serializer.validated_data:
-            img_file = serializer.validated_data["img"]
-            gemini_response = self.gemini_img_bot(img_file)
-
+            temp_img = serializer.validated_data.pop("img")  # Remove img temporarily
+            
+        # First save without the image to avoid DB adaptation issues
+        instance = serializer.save()
+        
+        # If we have an image, process it with AI and update the instance
+        if temp_img:
+            # Process the image with Gemini
+            gemini_response = self.gemini_img_bot(temp_img)
+            
             # Extract values from the Gemini response
             crop_name = gemini_response.get("crop_name", "Unknown")
             disease_description = gemini_response.get("description", "")
             is_disease = gemini_response.get("is_disease", False)
             solution = gemini_response.get("solution", "No solution required")
             is_not_crop = gemini_response.get("is_not_crop", False)
-
-            # Update serializer data accordingly
-            serializer.validated_data["description"] = disease_description
-            serializer.validated_data["is_disease"] = is_disease
-            serializer.validated_data["is_not_crop"] = is_not_crop
-            serializer.validated_data["crop_name"] = crop_name
-            serializer.validated_data["solution"] = solution
-
-        serializer.save()
+            
+            # Update instance with values from Gemini
+            instance.description = disease_description
+            instance.is_disease = is_disease
+            instance.is_not_crop = is_not_crop
+            instance.crop_name = crop_name
+            instance.solution = solution
+            
+            # Don't set the image directly - it will be handled by Cloudinary ORM
+            instance.save()
+            
+            # Upload image separately to Cloudinary using the direct uploader
+            try:
+                # Get image data for upload
+                if hasattr(temp_img, 'read'):
+                    # Reset file pointer and read content
+                    if hasattr(temp_img, 'seek'):
+                        temp_img.seek(0)
+                    elif hasattr(temp_img.file, 'seek'):
+                        temp_img.file.seek(0)
+                    file_data = temp_img.read()
+                else:
+                    # It's already content data
+                    file_data = temp_img
+                
+                # Upload to Cloudinary
+                upload_result = uploader.upload(
+                    file_data,
+                    folder='agri_backend/',
+                    public_id=f"{instance.id}_{str(uuid.uuid4())[:8]}"
+                )
+                
+                # Update the instance with Cloudinary image data
+                print(upload_result)
+                # Store the full public_id with folder path
+                instance.img = upload_result['public_id']
+                instance.save()
+            except Exception as e:
+                print(f"Error uploading to Cloudinary: {str(e)}")
+        else:
+            serializer.save()
