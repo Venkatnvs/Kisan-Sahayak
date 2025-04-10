@@ -2,7 +2,8 @@ import requests
 import json
 import base64
 
-reqUrl = "http://127.0.0.1:8000/api/core/field-data/"
+# reqUrl = "http://127.0.0.1:8000/api/core/field-data/"
+reqUrl = "https://kisan-sahayak.onrender.com/api/core/field-data/"
 
 def get_img_base64(img_path):
     with open(img_path, "rb") as img_file:
