@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ArrowUp,
   ArrowDown,
@@ -11,7 +11,9 @@ import {
   ExternalLink,
   Thermometer,
   Droplets,
-  Sprout
+  Sprout,
+  AlertTriangle,
+  Wifi
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -29,6 +31,8 @@ import {
 } from '@/components/ui/dialog';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { ref, set, onValue } from 'firebase/database';
+import { database } from '@/firebase/firebaseConfig';
 
 const LiveControlPage = () => {
   const [status, setStatus] = useState('');
@@ -36,20 +40,47 @@ const LiveControlPage = () => {
   const [sensorData, setSensorData] = useState(null);
   const [showGpsModal, setShowGpsModal] = useState(false);
   const [showSensorModal, setShowSensorModal] = useState(false);
+  const [showStatusMessage, setShowStatusMessage] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState('disconnected');
+
+  useEffect(() => {
+    if (status) {
+      setShowStatusMessage(true);
+      const timer = setTimeout(() => {
+        setShowStatusMessage(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    const connectedRef = ref(database, '.info/connected');
+    const unsubscribe = onValue(connectedRef, (snapshot) => {
+      if (snapshot.val() === true) {
+        setConnectionStatus('connected');
+      } else {
+        setConnectionStatus('error');
+      }
+    });
+    sendCommand('S');
+    return () => unsubscribe();
+  }, []);
 
   const apiCommands = ['gps', 'sensor'];
 
   const sendCommand = async command => {
     try {
-      if (command === 'send') {
-        setStatus('Sending command: send');
-      }
       if (!apiCommands.includes(command)) {
-        const response = await fetch(`http://192.168.177.57/cmd?command=${command}`);
-        if (!response) {
-          throw new Error('Failed to send command');
+        try {
+          const commandRef = ref(database, 'esp32_old/triggers');
+          await set(commandRef, {
+            command: command,
+            timestamp: Date.now()
+          });
+        } catch (error) {
+          setStatus('Error sending command');
+          console.error(error);
         }
-        setStatus('');
       } else {
         setStatus(`Sending command: ${command}`);
         const response = await fetch(`http://192.168.177.57/api/${command}`);
@@ -187,7 +218,7 @@ const LiveControlPage = () => {
 
   const ActionButtons = () => (
     <div className='grid grid-cols-2 gap-4'>
-      <Button
+      {/* <Button
         onClick={() => sendCommand('gps')}
         className='bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2'
         variant="outline"
@@ -200,7 +231,7 @@ const LiveControlPage = () => {
         variant="outline"
       >
         <TreePalm size={20} /> Sensor
-      </Button>
+      </Button> */}
       <Button
         onClick={() => sendCommand('send')}
         className='bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2'
@@ -226,7 +257,7 @@ const LiveControlPage = () => {
       <CardContent>
         <div className='aspect-video bg-black rounded-lg overflow-hidden mb-5'>
           <img
-            src={`http://192.168.177.179:81`}
+            src={`https://streamsync-7yp3.onrender.com/live/4202b1c1`}
             alt='Live stream'
             className='w-full h-full object-cover'
             onError={e => {
@@ -475,13 +506,58 @@ const LiveControlPage = () => {
     </Card>
   );
 
+  const ConnectionIndicator = () => {
+    const statusConfig = {
+      connected: {
+        variant: "outline",
+        className: "bg-green-50 text-green-700 border-green-200",
+        label: "Connected",
+        icon: <Wifi size={16} className="mr-1" />
+      },
+      disconnected: {
+        variant: "outline",
+        className: "bg-red-50 text-red-700 border-red-200",
+        label: "Disconnected",
+        icon: <AlertTriangle size={16} className="mr-1" />
+      },
+      error: {
+        variant: "outline",
+        className: "bg-amber-50 text-amber-700 border-amber-200",
+        label: "Connection Error",
+        icon: <AlertTriangle size={16} className="mr-1" />
+      },
+      connecting: {
+        variant: "outline",
+        className: "bg-blue-50 text-blue-700 border-blue-200",
+        label: "Connecting...",
+        icon: <Wifi size={16} className="mr-1 animate-pulse" />
+      }
+    };
+    
+    const config = statusConfig[connectionStatus];
+    
+    return (
+      <Badge 
+        variant={config.variant}
+        className={config.className}
+      >
+        {config.icon}
+        {config.label}
+      </Badge>
+    );
+  };
+
   return (
     <div className='min-h-screen py-2'>
       <div className='max-w-7xl mx-auto space-y-8'>
+        <div className="flex justify-end items-center">
+          <ConnectionIndicator />
+        </div>
         <div className='p-2 rounded-xl'>
-          {status && (
-            <Alert className='mb-4'>
-              <AlertTitle>Status</AlertTitle>
+          {showStatusMessage && status && (
+            <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Alert</AlertTitle>
               <AlertDescription>{status}</AlertDescription>
             </Alert>
           )}

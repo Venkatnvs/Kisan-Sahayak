@@ -24,7 +24,7 @@ FirebaseAuth auth;
 FirebaseConfig config;
 
 // Firebase real-time database paths
-#define RTDB_PATH "/esp32_old/triggers"
+#define RTDB_PATH "/esp32_old"
 String mainPath = RTDB_PATH;
 String commandPath;
 String SensorDataPath;
@@ -364,7 +364,7 @@ void connectToFirebase() {
 
   // Set up Firebase paths
   commandPath = mainPath;
-  commandPath+= "/command";
+  commandPath+= "/triggers/command";
 
   SensorDataPath = mainPath;
   SensorDataPath += "/sensor_data";
@@ -514,12 +514,15 @@ void streamCallback(FirebaseStream data)
     Serial.printf("Action received: %s\n", action.c_str());
     if (action == "usend") {
       handleData();
-    }
-    {
-      // Reset the Firebase action trigger
-      if (!Firebase.RTDB.setString(&fbdo, commandPath, "none"))
       {
-        Serial.printf("Failed to reset trigger: %s\n", fbdo.errorReason().c_str());
+        // Reset the Firebase action trigger
+        if (!Firebase.RTDB.setString(&fbdo, commandPath, "none"))
+        {
+          Serial.printf("Failed to reset trigger: %s\n", fbdo.errorReason().c_str());
+        } else
+        {
+          Serial.println("Trigger reset to 'none'");
+        }
       }
     }
   }

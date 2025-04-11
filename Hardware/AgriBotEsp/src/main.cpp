@@ -25,7 +25,7 @@ FirebaseAuth auth;
 FirebaseConfig config;
 
 // Firebase real-time database paths
-#define RTDB_PATH "/esp32_old/triggers"
+#define RTDB_PATH "/esp32_old"
 String mainPath = RTDB_PATH;
 String commandPath;
 String SensorDataPath;
@@ -120,7 +120,7 @@ void connectToFirebase() {
 
   // Set up Firebase paths
   commandPath = mainPath;
-  commandPath+= "/command";
+  commandPath+= "/triggers/command";
 
   SensorDataPath = mainPath;
   SensorDataPath += "/sensor_data";
@@ -158,7 +158,6 @@ void setup() {
     Wire.begin();
     if (!pca9685.begin()) {
         Serial.println("ERROR: PCA9685 servo driver not detected!");
-        Serial.println("ERROR: Servo driver not detected!");
     } else {
         pca9685.setPWMFreq(50);
         pcaInitialized = true;
@@ -175,7 +174,6 @@ void setup() {
     Serial.println("GPS module initialized");
     
     Serial.println("System initialization complete");
-    Serial.println("AGRI_BOT system ready");
 }
 
 void loop() {
@@ -290,6 +288,10 @@ void checkWiFiConnection() {
         WiFi.disconnect();
         delay(1000);
         connectWiFi();
+    } else {
+        stopCar();
+        stopActuator();
+        Serial.println("WiFi is connected. No action needed.");
     }
 }
 
@@ -341,7 +343,7 @@ void sendDataToESP32CAM() {
 
     // Build the JSON using ArduinoJson
     StaticJsonDocument<512> jsonDoc;
-    jsonDoc["main_field"] = 2;
+    jsonDoc["main_field"] = 3;
     jsonDoc["temperature"] = temperature;
     jsonDoc["humidity"] = humidity;
     jsonDoc["soil_moisture"] = soilMoisturePercent;
@@ -367,6 +369,12 @@ void sendDataToESP32CAM() {
     } else {
         Serial.println("Failed to send data to Firebase");
         Serial.println(fbdoSensorData.errorReason().c_str());
+    }
+
+    if (!Firebase.RTDB.setString(&fbdo, commandPath, "usend")) {
+        Serial.printf("Failed to reset trigger: %s\n", fbdo.errorReason().c_str());
+    } else {
+        Serial.println("Trigger reset to 'none'");
     }
 
 }
