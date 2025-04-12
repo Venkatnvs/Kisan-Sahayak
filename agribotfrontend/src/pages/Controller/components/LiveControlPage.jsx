@@ -116,69 +116,69 @@ const LiveControlPage = () => {
   };
 
   const DirectionalControls = () => (
-    <div className='grid grid-cols-3 gap-2 w-40 h-40'>
+    <div className='grid grid-cols-3 gap-2 sm:w-52 sm:h-52 w-full max-w-[180px] mx-auto'>
       <Button
         onClick={() => sendCommand('f')}
-        className='col-start-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center justify-center'
+        className='col-start-2 bg-gradient-to-b from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl shadow-lg flex items-center justify-center h-14 sm:h-16 transition-transform active:scale-95 border-b-4 border-blue-800'
         variant="default"
       >
-        <ArrowUp size={24} />
+        <ArrowUp size={32} />
       </Button>
       <Button
         onClick={() => sendCommand('l')}
-        className='col-start-1 row-start-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center justify-center'
+        className='col-start-1 row-start-2 bg-gradient-to-b from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl shadow-lg flex items-center justify-center h-14 sm:h-16 transition-transform active:scale-95 border-b-4 border-blue-800'
         variant="default"
       >
-        <ArrowLeft size={24} />
+        <ArrowLeft size={32} />
       </Button>
       <Button
         onClick={() => sendCommand('s')}
-        className='col-start-2 row-start-2 bg-red-500 hover:bg-red-600 text-white rounded-lg flex items-center justify-center'
+        className='col-start-2 row-start-2 bg-gradient-to-b from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white rounded-full shadow-lg flex items-center justify-center h-14 sm:h-16 transition-transform active:scale-95 border-b-4 border-red-800 font-bold text-xs'
         variant="destructive"
       >
         STOP
       </Button>
       <Button
         onClick={() => sendCommand('r')}
-        className='col-start-3 row-start-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center justify-center'
+        className='col-start-3 row-start-2 bg-gradient-to-b from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl shadow-lg flex items-center justify-center h-14 sm:h-16 transition-transform active:scale-95 border-b-4 border-blue-800'
         variant="default"
       >
-        <ArrowRight size={24} />
+        <ArrowRight size={32} />
       </Button>
       <Button
         onClick={() => sendCommand('b')}
-        className='col-start-2 row-start-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center justify-center'
+        className='col-start-2 row-start-3 bg-gradient-to-b from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl shadow-lg flex items-center justify-center h-14 sm:h-16 transition-transform active:scale-95 border-b-4 border-blue-800'
         variant="default"
       >
-        <ArrowDown size={24} />
+        <ArrowDown size={32} />
       </Button>
     </div>
   );
 
   const ServoControls = () => (
-    <div className='space-y-8'>
+    <div className='space-y-6'>
       <div className='rounded-lg'>
-        <h3 className='font-semibold mb-2'>Base Rotation</h3>
-        <div className='flex gap-2 justify-between items-center'>
+        <h3 className='font-semibold mb-3 text-gray-200'>Base Rotation</h3>
+        <div className='flex gap-2 justify-between items-center flex-wrap sm:flex-nowrap'>
           <Button
             onClick={() => sendCommand('servo 2 80')}
-            className='bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded flex-1'
+            className='bg-gradient-to-b from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-3 py-2 rounded-xl flex-1 min-w-[80px] h-12 shadow-lg transition-transform active:scale-95 border-b-4 border-purple-800 font-semibold'
             variant="secondary"
           >
             Left
           </Button>
-          <Separator className='h-px w-12 bg-gray-300' orientation="horizontal" />
+          <Separator className='hidden sm:block h-px w-6 bg-gray-600' orientation="horizontal" />
           <Button
             onClick={() => sendCommand('servo 2 63')}
-            className='bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded flex-1'
+            className='bg-gradient-to-b from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white px-3 py-2 rounded-xl flex-1 min-w-[80px] h-12 shadow-lg transition-transform active:scale-95 border-b-4 border-red-800 font-semibold'
             variant="secondary"
           >
             Stop
           </Button>
-          <Separator className='h-px w-12 bg-gray-300' orientation="horizontal" />
+          <Separator className='hidden sm:block h-px w-6 bg-gray-600' orientation="horizontal" />
           <Button
             onClick={() => sendCommand('servo 2 30')}
-            className='bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded flex-1'
+            className='bg-gradient-to-b from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-3 py-2 rounded-xl flex-1 min-w-[80px] h-12 shadow-lg transition-transform active:scale-95 border-b-4 border-purple-800 font-semibold'
             variant="secondary"
           >
             Right
@@ -186,27 +186,27 @@ const LiveControlPage = () => {
         </div>
       </div>
       <div className='rounded-lg'>
-        <h3 className='font-semibold mb-2'>Camera Angle</h3>
-        <div className='flex gap-2 justify-between items-center'>
+        <h3 className='font-semibold mb-3 text-gray-200'>Camera Angle</h3>
+        <div className='flex gap-2 justify-between items-center flex-wrap sm:flex-nowrap'>
           <Button
             onClick={() => sendCommand('servo 3 10')}
-            className='bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded flex-1'
+            className='bg-gradient-to-b from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-3 py-2 rounded-xl flex-1 min-w-[80px] h-12 shadow-lg transition-transform active:scale-95 border-b-4 border-purple-800 font-semibold'
             variant="secondary"
           >
             Up
           </Button>
-          <Separator className='h-px w-12 bg-gray-300' orientation="horizontal" />
+          <Separator className='hidden sm:block h-px w-6 bg-gray-600' orientation="horizontal" />
           <Button
             onClick={() => sendCommand('servo 3 40')}
-            className='bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded flex-1'
+            className='bg-gradient-to-b from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-3 py-2 rounded-xl flex-1 min-w-[80px] h-12 shadow-lg transition-transform active:scale-95 border-b-4 border-purple-800 font-semibold'
             variant="secondary"
           >
             Middle
           </Button>
-          <Separator className='h-px w-12 bg-gray-300' orientation="horizontal" />
+          <Separator className='hidden sm:block h-px w-6 bg-gray-600' orientation="horizontal" />
           <Button
             onClick={() => sendCommand('servo 3 90')}
-            className='bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded flex-1'
+            className='bg-gradient-to-b from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-3 py-2 rounded-xl flex-1 min-w-[80px] h-12 shadow-lg transition-transform active:scale-95 border-b-4 border-purple-800 font-semibold'
             variant="secondary"
           >
             Down
@@ -218,44 +218,32 @@ const LiveControlPage = () => {
 
   const ActionButtons = () => (
     <div className='grid grid-cols-2 gap-4'>
-      {/* <Button
-        onClick={() => sendCommand('gps')}
-        className='bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2'
-        variant="outline"
-      >
-        <MapPin size={20} /> GPS
-      </Button>
-      <Button
-        onClick={() => sendCommand('sensor')}
-        className='bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2'
-        variant="outline"
-      >
-        <TreePalm size={20} /> Sensor
-      </Button> */}
       <Button
         onClick={() => sendCommand('send')}
-        className='bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2'
+        className='bg-gradient-to-b from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white px-3 py-2 rounded-xl flex items-center justify-center gap-1 h-14 shadow-lg transition-transform active:scale-95 border-b-4 border-green-800 font-semibold'
         variant="default"
       >
-        <Send size={20} /> Send
+        <Send size={20} /> 
+        <span className="ml-1">Send</span>
       </Button>
       <Button
         onClick={() => sendCommand('reset')}
-        className='bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2'
+        className='bg-gradient-to-b from-orange-600 to-orange-700 hover:from-orange-500 hover:to-orange-600 text-white px-3 py-2 rounded-xl flex items-center justify-center gap-1 h-14 shadow-lg transition-transform active:scale-95 border-b-4 border-orange-800 font-semibold'
         variant="destructive"
       >
-        <RefreshCw size={20} /> Reset
+        <RefreshCw size={20} /> 
+        <span className="ml-1">Reset</span>
       </Button>
     </div>
   );
 
   const LiveStream = () => (
-    <Card className='h-full'>
-      <CardHeader>
-        <CardTitle>Live Stream</CardTitle>
+    <Card className='h-full bg-gray-900 border-gray-800 overflow-hidden'>
+      <CardHeader className="p-3 sm:p-6 bg-gray-800 border-b border-gray-700">
+        <CardTitle className="text-gray-200">Live Stream</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className='aspect-video bg-black rounded-lg overflow-hidden mb-5'>
+      <CardContent className="p-3 sm:p-6 pt-4">
+        <div className='aspect-video bg-black rounded-lg overflow-hidden mb-4 shadow-inner border border-gray-800'>
           <img
             src={`https://streamsync-7yp3.onrender.com/live/4202b1c1`}
             alt='Live stream'
@@ -266,8 +254,8 @@ const LiveControlPage = () => {
             }}
           />
         </div>
-        <h2 className='text-lg font-semibold'>Actions</h2>
-        <div className='mt-4'>
+        <h2 className='text-lg font-semibold text-gray-200 mb-3'>Actions</h2>
+        <div className='mt-2'>
           <ActionButtons />
         </div>
       </CardContent>
@@ -281,16 +269,16 @@ const LiveControlPage = () => {
     
     return (
       <Dialog open={showGpsModal} onOpenChange={setShowGpsModal}>
-      <DialogContent className="sm:max-w-2xl overflow-y-scroll max-h-[96vh]">
+      <DialogContent className="sm:max-w-2xl max-w-[95vw] overflow-y-auto max-h-[90vh] bg-gray-900 text-gray-200 border-gray-800">
         <DialogHeader>
-          <DialogTitle className="flex items-center">
+          <DialogTitle className="flex items-center text-gray-200">
             <MapPin className="mr-2" size={24} />
             GPS Location
           </DialogTitle>
-          <DialogDescription>Current device location data</DialogDescription>
+          <DialogDescription className="text-gray-400">Current device location data</DialogDescription>
         </DialogHeader>
         
-        <div className="mb-0 bg-gray-100 rounded-lg overflow-hidden">
+        <div className="mb-0 bg-gray-800 rounded-lg overflow-hidden">
           <MapContainer
             center={[gpsData.latitude, gpsData.longitude]}
             zoom={15}
@@ -306,36 +294,44 @@ const LiveControlPage = () => {
           </MapContainer>
         </div>
         
-        <div className="grid grid-cols-3 gap-4 mb-0">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-0">
           <div className="space-y-1">
-            <h3 className="text-sm font-medium text-gray-500">Latitude</h3>
-            <p className="text-lg font-semibold">{gpsData.latitude}</p>
+            <h3 className="text-sm font-medium text-gray-400">Latitude</h3>
+            <p className="text-lg font-semibold text-gray-200">{gpsData.latitude}</p>
           </div>
           <div className="space-y-1">
-            <h3 className="text-sm font-medium text-gray-500">Longitude</h3>
-            <p className="text-lg font-semibold">{gpsData.longitude}</p>
+            <h3 className="text-sm font-medium text-gray-400">Longitude</h3>
+            <p className="text-lg font-semibold text-gray-200">{gpsData.longitude}</p>
           </div>
           <div className="space-y-1">
-            <h3 className="text-sm font-medium text-gray-500">Altitude</h3>
-            <p className="text-lg font-semibold">{gpsData.altitude}m</p>
+            <h3 className="text-sm font-medium text-gray-400">Altitude</h3>
+            <p className="text-lg font-semibold text-gray-200">{gpsData.altitude}m</p>
           </div>
         </div>
         
-        <Alert>
-          <AlertTitle>GPS Status</AlertTitle>
+        <Alert className="bg-gray-800 border-gray-700">
+          <AlertTitle className="text-gray-200">GPS Status</AlertTitle>
           <AlertDescription>
             <Badge variant={gpsData.status === 'valid' ? 'success' : 'destructive'}>
               {gpsData.status === 'valid' ? 'Valid' : 'Invalid'}
             </Badge>
-            <span className="ml-2">Last updated: {new Date().toLocaleTimeString()}</span>
+            <span className="ml-2 text-gray-400">Last updated: {new Date().toLocaleTimeString()}</span>
           </AlertDescription>
         </Alert>
         
-        <DialogFooter className="flex justify-between">
-          <Button variant="outline" onClick={() => setShowGpsModal(false)}>
+        <DialogFooter className="flex flex-col sm:flex-row gap-3 justify-between">
+          <Button 
+            variant="outline" 
+            onClick={() => setShowGpsModal(false)} 
+            className="w-full sm:w-auto bg-gray-800 text-gray-200 border-gray-700 hover:bg-gray-700"
+          >
             Close
           </Button>
-          <Button variant="default" onClick={() => window.open(googleMapsUrl, '_blank')}>
+          <Button 
+            variant="default" 
+            onClick={() => window.open(googleMapsUrl, '_blank')} 
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white"
+          >
             <ExternalLink size={16} className="mr-2" />
             Open in Google Maps
           </Button>
@@ -369,13 +365,13 @@ const LiveControlPage = () => {
     
     return (
       <Dialog open={showSensorModal} onOpenChange={setShowSensorModal}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-w-[95vw] bg-gray-900 text-gray-200 border-gray-800">
         <DialogHeader>
-          <DialogTitle className="flex items-center">
+          <DialogTitle className="flex items-center text-gray-200">
             <TreePalm className="mr-2" size={24} />
             Sensor Readings
           </DialogTitle>
-          <DialogDescription>Environmental and soil data</DialogDescription>
+          <DialogDescription className="text-gray-400">Environmental and soil data</DialogDescription>
         </DialogHeader>
         
         <div className="space-y-6">
@@ -384,7 +380,7 @@ const LiveControlPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <Thermometer className={`mr-2 ${getTemperatureColor(sensorData.temperature)}`} size={20} />
-                <h3 className="font-medium">Temperature</h3>
+                <h3 className="font-medium text-gray-200">Temperature</h3>
               </div>
               <span className={`text-lg font-bold ${getTemperatureColor(sensorData.temperature)}`}>
                 {sensorData.temperature}°C
@@ -392,9 +388,9 @@ const LiveControlPage = () => {
             </div>
             <Progress 
               value={(sensorData.temperature / 50) * 100} 
-              className="h-2" 
+              className="h-2 bg-gray-800" 
             />
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-gray-400">
               <span>0°C</span>
               <span>25°C</span>
               <span>50°C</span>
@@ -406,7 +402,7 @@ const LiveControlPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <Droplets className={`mr-2 ${getHumidityColor(sensorData.humidity)}`} size={20} />
-                <h3 className="font-medium">Humidity</h3>
+                <h3 className="font-medium text-gray-200">Humidity</h3>
               </div>
               <span className={`text-lg font-bold ${getHumidityColor(sensorData.humidity)}`}>
                 {sensorData.humidity}%
@@ -414,9 +410,9 @@ const LiveControlPage = () => {
             </div>
             <Progress 
               value={sensorData.humidity} 
-              className="h-2" 
+              className="h-2 bg-gray-800" 
             />
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-gray-400">
               <span>0%</span>
               <span>50%</span>
               <span>100%</span>
@@ -428,7 +424,7 @@ const LiveControlPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <Sprout className={`mr-2 ${getMoistureColor(sensorData.soil_moisture_percent)}`} size={20} />
-                <h3 className="font-medium">Soil Moisture</h3>
+                <h3 className="font-medium text-gray-200">Soil Moisture</h3>
               </div>
               <span className={`text-lg font-bold ${getMoistureColor(sensorData.soil_moisture_percent)}`}>
                 {sensorData.soil_moisture_percent}%
@@ -436,9 +432,9 @@ const LiveControlPage = () => {
             </div>
             <Progress 
               value={sensorData.soil_moisture_percent} 
-              className="h-2" 
+              className="h-2 bg-gray-800" 
             />
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-gray-400">
               <span>Dry</span>
               <span>Moist</span>
               <span>Wet</span>
@@ -447,7 +443,11 @@ const LiveControlPage = () => {
         </div>
         
         <DialogFooter>
-          <Button variant="outline" onClick={() => setShowSensorModal(false)} className="w-full">
+          <Button 
+            variant="outline" 
+            onClick={() => setShowSensorModal(false)} 
+            className="w-full bg-gray-800 text-gray-200 border-gray-700 hover:bg-gray-700"
+          >
             Close
           </Button>
         </DialogFooter>
@@ -457,46 +457,46 @@ const LiveControlPage = () => {
   };
 
   const ActuatorControls = () => (
-    <Card>
-      <CardContent className="p-4">
+    <Card className="bg-gray-900 border-gray-800">
+      <CardContent className="p-3 sm:p-4">
         <div className="space-y-4">
-          <h3 className='font-semibold mb-2'>Actuator</h3>
-          <div className='flex gap-2 flex-col pb-5'>
+          <h3 className='font-semibold mb-2 text-gray-200'>Actuator</h3>
+          <div className='flex gap-2 flex-col'>
             <Button
               onClick={() => sendCommand('u')}
               variant="secondary"
-              className='bg-purple-500 hover:bg-purple-600 text-white'
+              className='bg-gradient-to-b from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white flex-1 h-12 rounded-xl shadow-lg transition-transform active:scale-95 border-b-4 border-teal-800 font-semibold'
             >
               Up
             </Button>
             <Button
               onClick={() => sendCommand('t')}
               variant="secondary"
-              className='bg-red-500 hover:bg-red-600 text-white'
+              className='bg-gradient-to-b from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white flex-1 h-12 rounded-xl shadow-lg transition-transform active:scale-95 border-b-4 border-red-800 font-semibold'
             >
               Stop
             </Button>
             <Button
               onClick={() => sendCommand('d')}
               variant="secondary"
-              className='bg-purple-500 hover:bg-purple-600 text-white'
+              className='bg-gradient-to-b from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white flex-1 h-12 rounded-xl shadow-lg transition-transform active:scale-95 border-b-4 border-teal-800 font-semibold'
             >
               Down
             </Button>
           </div>
-          <h3 className='font-semibold mb-2'>Soil Sensor</h3>
+          <h3 className='font-semibold mb-2 text-gray-200'>Soil Sensor</h3>
           <div className='flex gap-2 flex-col'>
             <Button
               onClick={() => sendCommand('servo 1 90')}
               variant="secondary"
-              className='bg-purple-500 hover:bg-purple-600 text-white'
+              className='bg-gradient-to-b from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white flex-1 h-12 rounded-xl shadow-lg transition-transform active:scale-95 border-b-4 border-amber-800 font-semibold'
             >
               In
             </Button>
             <Button
               onClick={() => sendCommand('servo 1 120')}
               variant="secondary"
-              className='bg-purple-500 hover:bg-purple-600 text-white'
+              className='bg-gradient-to-b from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white flex-1 h-12 rounded-xl shadow-lg transition-transform active:scale-95 border-b-4 border-amber-800 font-semibold'
             >
               Out
             </Button>
@@ -510,25 +510,25 @@ const LiveControlPage = () => {
     const statusConfig = {
       connected: {
         variant: "outline",
-        className: "bg-green-50 text-green-700 border-green-200",
+        className: "bg-green-900 text-green-400 border-green-700",
         label: "Connected",
         icon: <Wifi size={16} className="mr-1" />
       },
       disconnected: {
         variant: "outline",
-        className: "bg-red-50 text-red-700 border-red-200",
+        className: "bg-red-900 text-red-400 border-red-700",
         label: "Disconnected",
         icon: <AlertTriangle size={16} className="mr-1" />
       },
       error: {
         variant: "outline",
-        className: "bg-amber-50 text-amber-700 border-amber-200",
+        className: "bg-amber-900 text-amber-400 border-amber-700",
         label: "Connection Error",
         icon: <AlertTriangle size={16} className="mr-1" />
       },
       connecting: {
         variant: "outline",
-        className: "bg-blue-50 text-blue-700 border-blue-200",
+        className: "bg-blue-900 text-blue-400 border-blue-700",
         label: "Connecting...",
         icon: <Wifi size={16} className="mr-1 animate-pulse" />
       }
@@ -548,43 +548,81 @@ const LiveControlPage = () => {
   };
 
   return (
-    <div className='min-h-screen py-2'>
-      <div className='max-w-7xl mx-auto space-y-8'>
-        <div className="flex justify-end items-center">
+    <div className='min-h-screen py-2 px-2 sm:px-4 text-white'>
+      <div className='max-w-7xl mx-auto space-y-4 sm:space-y-4'>
+        <div className="flex justify-between items-center">
+          <h1 className="text-xl font-bold text-gray-500">AgriBot Control</h1>
           <ConnectionIndicator />
         </div>
-        <div className='p-2 rounded-xl'>
-          {showStatusMessage && status && (
-            <Alert variant="destructive">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Alert</AlertTitle>
-              <AlertDescription>{status}</AlertDescription>
-            </Alert>
-          )}
 
-          <div className='grid lg:grid-cols-2 gap-4'>
-            <div className='flex gap-4'>
-              <Card className='flex-1 p-4'>
-                <CardContent className='p-0'>
-                  <div className='space-y-4'>
-                    <h2 className='text-lg font-semibold mb-4'>
-                      Direction Control
-                    </h2>
-                    <div className='flex justify-center'>
-                      <DirectionalControls />
-                    </div>
-                  </div>
-                  <div className='mt-8'>
-                    <h2 className='text-lg font-semibold my-4'>Servo Controls</h2>
-                    <ServoControls />
-                  </div>
-                </CardContent>
-              </Card>
-              <ActuatorControls />
-            </div>
+        {showStatusMessage && status && (
+          <Alert variant="destructive" className="bg-red-900 border-red-800 text-white">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Alert</AlertTitle>
+            <AlertDescription>{status}</AlertDescription>
+          </Alert>
+        )}
 
+        {/* Desktop Layout - Grid with live stream on right, controls on left */}
+        <div className="hidden sm:grid sm:grid-cols-[5fr_1.2fr_5fr] sm:gap-1">
+          {/* Left side - Controls in 3 rows */}
+          <div className="space-y-6 flex-1">
+            {/* Row 1 - Direction Controls */}
+            <Card className="p-3 sm:p-4 bg-gray-900 border-gray-800">
+              <CardContent className="p-0">
+                <h2 className="text-lg font-semibold mb-4 text-gray-200">Direction Control</h2>
+                <div className="flex justify-center">
+                  <DirectionalControls />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Row  - Servo Controls */}
+            <Card className="p-3 sm:p-4 bg-gray-900 border-gray-800">
+              <CardContent className="p-0">
+                <h2 className="text-lg font-semibold mb-4 text-gray-200">Servo Controls</h2>
+                <ServoControls />
+              </CardContent>
+            </Card>
+
+            {/* Row 3 - Actuator Controls */}
+          </div>
+
+          <div className="space-y-6">
+            <ActuatorControls />
+          </div>
+
+          {/* Right side - Live Stream */}
+          <div className="h-full flex-1">
             <LiveStream />
           </div>
+        </div>
+
+        {/* Mobile Layout - Vertical stack without tabs */}
+        <div className="sm:hidden space-y-4">
+          {/* Live Stream at top for mobile */}
+          <LiveStream />
+
+          {/* Direction Controls */}
+          <Card className="p-3 bg-gray-900 border-gray-800">
+            <CardContent className="p-0">
+              <h2 className="text-lg font-semibold mb-3 text-gray-200">Direction Control</h2>
+              <div className="flex justify-center">
+                <DirectionalControls />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Actuator Controls - In middle */}
+          <ActuatorControls />
+
+          {/* Servo Controls */}
+          <Card className="p-3 bg-gray-900 border-gray-800">
+            <CardContent className="p-0">
+              <h2 className="text-lg font-semibold mb-3 text-gray-200">Servo Controls</h2>
+              <ServoControls />
+            </CardContent>
+          </Card>
         </div>
       </div>
       
