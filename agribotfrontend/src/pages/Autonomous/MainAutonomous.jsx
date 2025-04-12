@@ -52,6 +52,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import PageContainer from '@/components/layout/PageContainer';
 import TextHeader from '@/components/PageHeaders/TextHeader';
+import { ref, set, onValue } from 'firebase/database';
+import { database } from '@/firebase/firebaseConfig';
 
 // Predefined command blocks with different categories
 const predefinedBlocks = [
@@ -131,6 +133,33 @@ const MainAutonomous = () => {
   const [editValues, setEditValues] = useState({ label: '', delay: 0 });
   const [activeTab, setActiveTab] = useState('basic');
   const [showHelpTip, setShowHelpTip] = useState(true);
+  const [connectionStatus, setConnectionStatus] = useState('disconnected');
+
+  useEffect(() => {
+    const connectedRef = ref(database, '.info/connected');
+    const unsubscribe = onValue(connectedRef, (snapshot) => {
+      if (snapshot.val() === true) {
+        setConnectionStatus('connected');
+      } else {
+        setConnectionStatus('error');
+      }
+    });
+    sendCommand('S');
+    return () => unsubscribe();
+  }, []);
+
+  const sendCommand = async command => {
+    try {
+      const commandRef = ref(database, 'esp32_old/triggers');
+      await set(commandRef, {
+        command: command,
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   // Memoize nodeTypes to prevent unnecessary re-creation on each render
   const nodeTypes = useMemo(() => ({ commandNode: CommandNode }), []);
@@ -370,7 +399,7 @@ const MainAutonomous = () => {
         );
 
         try {
-          await fetch(`http://192.168.177.57/cmd?command=${node.data.command}`);
+          await sendCommand(node.data.command);
           toast.info(`Executing: ${node.data.label}`);
         } catch (error) {
           console.error(`Error executing ${node.data.label}:`, error);
